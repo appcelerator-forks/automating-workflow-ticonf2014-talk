@@ -1,0 +1,744 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Automating Workflow</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+	<link rel="stylesheet" href="styles/prism.css" />
+	<link rel="stylesheet" href="styles/custom.css">
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Automating Workflow</h1>
+		<p>TiConf Amsterdam - Claire Coloma - June 29th, 2014</p>
+	</header>
+
+	<section class="slide cover" id="coverpage"><div>
+		<div class="covertitle">
+			<h2>Automating Workflow</h2>
+			<p>TiConf Amsterdam - <a href="http://twitter.com/_clairecoloma">Claire Coloma</a> - <span class="date">June 29th, 2014</span></p>
+		</div>
+		<img src="covers/06.jpg" alt="" />
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Who am I?</h2>
+		<h2> Claire COLOMA</h2>
+		<ul style="margin-bottom: 25px">
+			<li>I study mobile applications at ESGI in Paris</li>
+			<li>Work-study contract with <a href="http://jolicode.com"><img src="pictures/JoliCode_logo.png" width="120px"/></a> - web and mobile agency</li>
+		</ul>
+		<p><img src="pictures/twitter.png" style="width: 20px"> <a href="https://twitter.com/_clairecoloma">@_ClaireColoma</a></p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>We'll see how to implement:</h2>
+		<ul>
+			<li>TiShadow</li>
+			<li>LTSS</li>
+			<li>Jade</li>
+			<li>CoffeeScript</li>
+			<li>Grunt</li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<img src="gif/build.gif" class="place l next"/>
+
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Why automate?</h2>
+		When we launch a build:
+		<ul>
+			<li>we waste time</li>
+			<li>we lose focus</li>
+			<li>we have to be patient</li>
+		</ul>
+		<p class="note">There is a process that makes us waste much of time : building the application
+			and when we launch a build it's like :
+		</p>
+		<img class="next place r" src="gif/impatient_cat.gif">
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>A build</h2>
+		<div class="place l">
+			<p>
+				1 build <img src="pictures/tishadow/sablier.png" width="18px"> 15 sec <br/>
+				<span class="next">100 builds <img src="pictures/tishadow/sablier.png" width="18px"> 125 min <span class="next red">per week</span></span>
+			</p>
+		</div>
+
+		<img class="next place r" src="gif/WTF_jimmy.gif">
+
+		<p class="note">One build takes about 15 seconds to run an application. If you make 100 builds a day and work 5 days on it, you have lost 125 min of your life, per week. </p>
+
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>With TiShadow</h2>
+		<div class="place l">
+			<p>1 build <img src="pictures/tishadow/sablier.png" width="18px"> 5 sec<br/>
+			<span class="next">You can save : </span><span class="next red">83 min</span><br/>
+			<span class="next">≈ 4 episodes of New Girl</span></p>
+		</div>
+		<img class="next place r" src="gif/yeah_jess.gif" width="300px" />
+		<p class="note">Just with TiShadow you will save every week about 83 min, the time to watch 4 episodes of New Girl.</p>
+	</div></section>
+
+	<section class="slide cover"><div>
+		<h2>TiShadow</h2>
+		<img src="covers/05.jpg" alt="" />
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>What is TiShadow ?</h2>
+		<figure>
+        <blockquote>
+            <p>TiShadow provides Titanium developers the ability to deploy apps, run tests or execute code snippets live across all running iOS and Android devices.</p>
+        </blockquote>
+        <figcaption>David Bankier</figcaption>
+    </figure>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>TiShadow Components</h2>
+		<ul>
+			<li>TiShadow App</li>
+			<li>TiShadow Server</li>
+			<li>TiShadow CLI</li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>How does TiShadow work?</h2>
+		<img class="place c b next" style="margin-bottom:40px;" src="gif/tishadowrun.gif" height="400px"/>
+		<img class="place c b next" style="margin-bottom:40px;" src="pictures/tishadow/tishadowrun.png" height="400px"/>
+
+		<p class="note">The command $ tishadow run compress the resources of your application (in zip format) and send them to the tishadow server.<br/>
+		Then this one distribute this package to all tishadow apps connected using websocket returning information to the cli<br/>
+		These apps extract contents of the package and execute the code</p>
+
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Install TiShadow</h2>
+		<ol>
+			<li>
+				Install TiShadow Server:
+				<pre><code class="language-bash">$ npm install -g tishadow</code></pre>
+			</li>
+			<li class="next">
+				Generate TiShadow Mobile App:
+				<pre><code class="language-bash">$ mkdir ~/tishadowapp
+$ tishadow app -d ~/tishadowapp</code></pre>
+			</li>
+			<li class="next">
+				If you have native modules, built them into tishadow app
+			</li>
+		</ol>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Launch TiShadow</h2>
+		<pre><code class="language-bash">$ tishadow server
+$ cd  ~/tishadowapp
+$ ti build -p android -T device</code></pre>
+		<p>Enter your IP address</p>
+		Then, launch your application:
+		<pre><code class="language-bash">$ tishadow run</code></pre>
+		<img class="place r" width="300px" src="pictures/tishadow/ip-address.png" alt="" />
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>NEW FEATURE : TiShadow Express</h2>
+		New Ti command which:
+		<ol>
+			<li>Launch the app</li>
+			<li>Reload automatically</li>
+		</ol>
+		<div>
+			<pre><code class="language-bash">$ ti build -p ios --shadow</code></pre>
+		</div>
+	</div></section>
+
+	<section class="slide cover w"><div>
+		<img src="gif/happy-moves_jimmy.gif" />
+	</div></section>
+
+	<section class="slide shout"><div>
+		<h2 style="font-size:50px;">Why I've not given this command directly?</h2>
+	</div></section>
+
+	<section class="slide shout"><div>
+		<h2 style="font-size:50px;">Because TiShadow is more</h2>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>TiShadow: Advanced mode</h2>
+		<ul>
+			<li>Clear your cache
+				<pre><code class="language-bash">$ tishadow clear</code></pre>
+			</li>
+			<li class="next">Screenshots
+				<pre><code class="language-bash">$ tishadow screenshot</code></pre>
+				To specific your destination path:
+				<pre><code class="language-bash">$ tishadow server --screenshot-path [path]</code></pre>
+			</li>
+			<li class="next">Tests
+				<pre><code class="language-bash">$ tishadow spec</code></pre>
+			</li>
+		</ul>
+		<p class="note">Clear the application cache on all connected devices<br/>
+						Capture screenshots, that's so cool, when you want to makes screenshots for app store or play store, you make them one time and not for each device<br/>
+						by default theses captures are stock in your temporary file, but you can choose the path destination  when you launch the server with this command:<br/>
+						spec launch jasmine test by default</p>
+	</div></section>
+
+	<section class="slide"><div>
+		<img class="place" width="750px" src="pictures/tishadow/webpage.png" />
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>TiShadow: Advanced mode</h2>
+		<ul>
+			<li>Code snippets via webpage (http://localhost:3000/)</li>
+			<img style="margin-left:45px;" src="pictures/tishadow/webpage_codesnippet.png" height="100px" />
+
+			<li>Same utility: REPL</li>
+			<img src="pictures/tishadow/repl.png" height="250px" />
+
+		</ul>
+		<p class="note">Launch the REPL (Read Eval Pint Loop) that permit you to code directly in the command line<br/>
+						TiShadow also provide an editor where you can put your code and press the button "execute" to deploy the code snippet to all connected devices. </p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Do you want to save more time?</h2>
+		<div class="next">
+			<p>Automate the compilations of:</p>
+			<ul>
+				<li>CoffeeScript</li>
+				<li>Jade</li>
+				<li>Less TSS</li>
+			</ul>
+		</div>
+	</div></section>
+
+
+	<section class="slide cover"><div>
+		<h2>CoffeeScript<img src="pictures/coffeescript/coffee_logo.png"/></h2>
+		<img src="covers/04.jpg"/>
+		<p class="note">the most famous JavaScript preprocessor, that make your script more readable as well as maintenable</p>
+	</div></section>
+
+	<section class="slide bigCode"><div>
+		<h2>Syntax</h2>
+		<div class="place l">
+			<p>JavaScript</p>
+			<ul>
+				<li>You forget a " ; " ? <span class="red next"> => error</span></li>
+				<li class="next">You forget a " { " or " } " ? <span class="red next"> => error</span></li>
+			</ul>
+		</div>
+		<div class="next place r" style="right:230px">
+			<p>CoffeeScript</p>
+			<ul>
+				<li class="blue">You don't need any</li>
+				<li style="visibility:hidden;"></li>
+			</ul>
+		</div>
+		<p class="note">" ; " -> semicolons ;  "{ }" -> curly braces</p>
+	</div></section>
+
+	<section class="slide bigCode"><div>
+		<h2>Syntax</h2>
+        <div class="col-2">
+            <span class="center">JavaScript</span>
+            <pre style="font-size:13px;"><code class="language-javascript">var doClick = function(e) {
+	return console.log(e.index);
+};</code></pre>
+        </div>
+        <div class="col-2">
+            <span class="center">CoffeeScript</span>
+        <pre><code class="language-coffeescript">doClick = (e) ->
+	console.log(e.index)</code></pre>
+        </div>
+        <div class="next" style="margin-top:15px;">
+            <div class="col-2">
+
+            <pre style="font-size:13px;"><code class="language-javascript">if (typeof joli !== "undefined" && joli == null) {
+	alert("Hello");
+}</code></pre>
+            </div>
+            <div class="col-2">
+            <pre><code class="language-coffeescript">alert "Hello" if joli?</code></pre>
+            </div>
+        </div>
+		<p class="note">Indeed, Coffee is Syntactically significant whitespace so no need semicolon or braces</p>
+	</div></section>
+
+	<section class="slide bigCode"><div>
+		<h2>Syntax</h2>
+        <div class="col-2">
+            <span class="center">JavaScript</span>
+            <pre><code class="language-javascript">var math;
+math = {
+	square: function(x) {
+		return Math.sqrt(x);
+	},
+	cube: function(x) {
+		return x * square(x);
+	}
+};
+
+alert("Three cubed is " + (math.cube(3)));</code></pre>
+    	</div>
+        <div class="col-2">
+            <span class="center">CoffeeScript</span>
+            <pre><code class="language-coffeescript">math =
+  square: (x) -> Math.sqrt x
+  cube:   (x) -> x * square x
+alert "Three cubed is #{math.cube 3}"</code></pre>
+        </div>
+	</div></section>
+
+	<section class="slide bigCode"><div>
+		<h2>Syntax</h2>
+		<div class="col-2">
+			<span class="center">JavaScript</span>
+			<pre><code class="language-javascript">var button = Titanium.UI.createButton({
+	title: 'Hello',
+	top: 10,
+	width: 100,
+	height: 50
+});</code></pre>
+		</div>
+		<div class="col-2">
+			<span class="center">CoffeeScript</span>
+			<pre><code class="language-coffeescript">button = Titanium.UI.createButton
+  title: 'Hello'
+  top: 10
+  width: 100
+  height: 50</code></pre>
+		</div>
+		<div class="next" style="margin-top:15px;">
+			<div class="col-2">
+				<pre style="font-size:13px;"><code class="language-javascript">button.addEventListener('click', function {
+	Titanium.API.info("You clicked the button");
+});</code></pre>
+			</div>
+			<div class="col-2">
+				<pre style="font-size:13px;"><code class="language-coffeescript">button.addEventListener 'click', () ->
+  Titanium.API.info  "You clicked the button"</code></pre>
+			</div>
+		</div>
+		<p class="note"></p>
+	</div></section>
+
+	<section class="slide" id="scripts"><div>
+		<h2>Syntax</h2>
+		<div class="col-3">
+			<ul>
+				<li>JavaScript</li>
+				<li>===</li>
+				<li>!==</li>
+				<li>!</li>
+				<li>&&</li>
+				<li>||</li>
+				<li>true</li>
+				<li>false</li>
+			</ul>
+		</div>
+		<div class="col-3">
+			<ul>
+				<li style="color:white">Hello</li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+				<li><img src="pictures/coffeescript/arrow.png" /></li>
+			</ul>
+		</div>
+		<div class="col-3">
+			<ul>
+				<li>CoffeeScript</li>
+				<li>is</li>
+				<li>isnt</li>
+				<li>not</li>
+				<li>and</li>
+				<li>or</li>
+				<li>true, yes, on</li>
+				<li>false, no, off</li>
+			</ul>
+		</div>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Compilation</h2>
+		<ul>
+			<li>Compile a coffee file
+			<pre><code class="language-bash">$ coffee --compile --output js/ chocolate.coffee</code></pre>
+			</li>
+			<li class="next">Compile a directory of coffee files
+			<pre><code class="language-bash">$ coffee --compile --output js/ coffeedir/</code></pre>
+			</li>
+			<li class="next">Compile automatically
+			<pre><code class="language-bash">$ coffee --watch --compile chocolate.coffee</code></pre>
+			</li>
+		</ul>
+	</div></section>
+
+	<section class="slide cover"><div>
+		<h2>Jade</h2>
+		<img src="covers/09.jpg">
+		<p class="note">Jade is an another way to  code xml, even more, with jade you can use Variables, Conditions code, Switch case, loop, etc.  </p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Syntax - No Tag</h2>
+		<div class="col-2">
+			<span>Jade</span>
+			<pre><code class="language-markup">ul
+  li Item A
+  li Item B
+  li Item C</code></pre>
+		</div>
+		<div class="col-2">
+			<span>XML</span>
+			<pre><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;Item A&lt;/li&gt;
+  &lt;li&gt;Item B&lt;/li&gt;
+  &lt;li&gt;Item C&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+		</div>
+		<p class="note">Jade is like CoffeeScript: syntactically significant whitespace, so no need tags, just need to nest your code</p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Syntax - Iteration</h2>
+		<div>
+			<span>Jade</span>
+			<pre><code class="language-coffeescript">ul
+  each val, index in {1:'one',2:'two',3:'three'}
+	li= index + ': ' + val</code></pre>
+		</div>
+		<div>
+			<span>XML</span>
+			<pre><code class="language-markup">&lt;ul&gt;
+	&lt;li&gt;1: one&lt;/li&gt;
+	&lt;li&gt;2: two&lt;/li&gt;
+	&lt;li&gt;3: three&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+		</div>
+		<p class="note"></p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Compilation</h2>
+		<ul>
+			<li>Compile specifics jade files
+		<pre><code class="language-bash">$ jade {file1,file2}.jade</code></pre>
+			</li>
+			<li class="next">Compile directories
+		<pre><code class="language-bash">$ jade dir1 dir2 --out /views</code></pre>
+			</li>
+		</ul>
+	</div></section>
+
+
+
+	<section class="slide cover"><div>
+		<h2>LTSS</h2>
+		<img src="covers/01.jpg">
+	</div></section>
+
+	<section class="slide bigCode"><div>
+		<h2>Variables</h2>
+		<div class="col-2">
+			<span class="center">LTSS</span>
+			<pre><code class="language-css">@primary-color: #f7d325;
+@secondary-color: rgb(75,134,194);
+
+"p": {
+	color: @primary-color
+}
+"a": {
+	color: @secondary-color
+}
+".progressbar" {
+	color: @secondary-color
+}</code></pre>
+		</div>
+		<div class="col-2">
+			<span class="center">TSS</span>
+			<pre><code class="language-bash">"p": {
+	color: #f7d325
+}
+"a": {
+	color: rgb(75,134,194)
+}
+".progressbar" {
+	color: rgb(75,134,194)
+}</code></pre>
+		</div>
+	</div></section>
+
+	<section class="slide bigCode"><div>
+		<h2>Mixins</h2>
+		<div class="col-2">
+			<span class="center">LTSS</span>
+			<pre><code class="language-bash">.error(@borderWidth: 2px) {
+  border: @borderWidth solid #F00;
+  color: #F00;
+}
+".generic-error" {
+  padding: 20px;
+  margin: 4px;
+  .error();
+}
+".login-error" {
+  left: 12px;
+  position: absolute;
+  top: 20px;
+  .error(5px);
+}</code></pre>
+		</div>
+		<div class="col-2">
+			<span class="center">TSS</span>
+			<pre><code class="language-bash">".generic-error" {
+  padding: 20px;
+  margin: 4px;
+  border: 2px solid #F00;
+  color: #F00;
+}
+".login-error" {
+  left: 12px;
+  position: absolute;
+  border: 5px solid #F00;
+  color: #F00;
+}</code></pre>
+		</div>
+		<img src="pictures/ltss/arrow.png" class="next" style="position: absolute; left:80px; top: 248px; width:340px;">
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>CLI Usage</h2>
+		<ul>
+			<li>Install Less TSS
+				<pre><code class="language-bash">$ npm install -g ltss</code></pre>
+			</li>
+			<li>Compile a ltss file in .tss
+				<pre><code class="language-bash">$ ltss [filename.ltss] [filename.tss]</code></pre>
+			</li>
+
+		</ul>
+	</div></section>
+
+	<section class="slide shout"><div>
+		<h2 style="font-size:60px">Cool stuff but too many commands !</h2>
+	</div></section>
+
+	<section class="slide cover"><div>
+		<h2><img src="pictures/grunt/grunt_logo.png" width="30px" style="position:relative; z-index:1;"/>  Grunt</h2>
+		<img src="covers/07.jpg"/>
+		<p class="note">Grunt is a task runner, and you can launch task automaticallly, that permit you in this case to automatically compile your files</p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Installation</h2>
+		Grunt
+		<pre><code class="language-bash">
+$ npm install grunt
+$ npm install -g grunt-cli
+		</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Features</h2>
+		<ul>
+			<li>Compile automatically your preprocessors files</li>
+			<li>Manage your proxy liveroad</li>
+			<li>Optimize your images</li>
+			<li>Concatenate files (for webpage)</li>
+			<li>Launch tasks automatically</li>
+
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Main plugins</h2>
+		<ul>
+			<li><span class="red">grunt-img</span>: optimize your assets</li>
+			<li><span class="red">grunt-ltss</span>: compile your ltss file in .tss</li>
+			<li><span class="red">grunt-contrib-coffee</span>: compile your coffee file in .js</li>
+			<li><span class="red">grunt-contrib-watch</span>: watches the filesystem and launches tasks automatically</li>
+			<li><span class="red">grunt-tishadow</span>: launch tishadow tasks</li>
+			<li><span class="red">extensible:</span> you can write your own! </li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Necessary files</h2>
+		<ol>
+			<li><span class="red">package.json</span> : list of depedencies</li>
+			<li><span class="red">Gruntfile.js</span> (or Gruntfile.coffee &#9786;) : load modules and configure tasks to run</li>
+		</ol>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>package.json</h2>
+		<pre style="bottom:0px;"><code  class="language-json">{
+	"name": "My badass project",
+	"description": "Poney and hearts everywhere"
+	"version": "0.0.1",
+	"author": "Claire COLOMA",
+  },
+  "dependencies": {
+    "grunt": "~0.4.5"
+  },
+  "devDependencies": {
+    "grunt-ltss": "~0.1.2",
+    "grunt-contrib-coffee": "~0.10.1",
+    "grunt-tishadow": "dbankier/grunt-tishadow",
+    "grunt-contrib-watch": "~0.6.1",
+    "load-grunt-tasks": "~0.6.0"
+  }
+}</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Gruntfile.coffee : the structure</h2>
+		<pre><code class="language-coffeescript">module.exports = (grunt) ->
+
+    <mark class="comment"># Import grunt plugins</mark>
+    grunt.loadNpmTasks 'grunt-plugin'
+
+    <mark class="comment"># Configure plugins</mark>
+    grunt.initConfig()
+
+    <mark class="comment"># Register tasks</mark>
+    grunt.registerTask 'default', ['tache1', 'tache2']</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Gruntfile : Importing plugins</h2>
+		<pre><code class="language-coffeescript">grunt.loadNpmTasks 'grunt-img'
+grunt.loadNpmTasks 'grunt-ltss'
+grunt.loadNpmTasks 'grunt-contrib-coffee'
+grunt.loadNpmTasks 'grunt-contrib-watch'
+grunt.loadNpmTasks 'grunt-tishadow'</code></pre>
+
+		<div class="next">Or:
+			<pre><code class="language-coffeescript">  require('load-grunt-tasks')(grunt)</code></pre>
+		</div>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Gruntfile : Configuration</h2>
+		<div>
+			<pre><code class="language-coffeescript">module.exports = (grunt) ->
+  img:
+    do:
+   	  src: 'app/assets/images'
+  coffee:
+    options:
+      bare:true
+    compile:
+      files: [
+        expand: true
+        src: ["**/*.coffee"]
+        cwd: "app/coffee"
+        dest: "app"
+        ext: ".js"
+      ]</code></pre>
+        </div>
+  	</div></section>
+
+  	<section class="slide"><div>
+		<h2>Gruntfile : Configuration of ltss plugin</h2>
+		<pre><code class="language-coffeescript">ltss:
+  compile:
+    files: [
+      expand: true
+      cwd: "app/ltss"
+      dest: "app/styles"
+      src: ["**/*.ltss", "!**/includes/**"]
+      ext: ".tss"
+    ]</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Gruntfile : Configuration of tishadow plugin</h2>
+		<pre><code class="language-coffeescript">tishadow:
+  run:
+    command: 'run'
+
+  run_ios:
+    command: 'run'
+    options:
+        platform: 'ios'
+
+  run_android:
+    command: 'run'
+    options:
+        platform: 'android'</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Gruntfile : Configuration of watch plugin</h2>
+		<pre><code class="language-coffeescript">watch:
+  ios:
+    files: ["app/**/*.xml", "app/**/*.ltss", "app/**/*.coffee"]
+    tasks: ['compile', 'tishadow:run_ios']
+
+  android:
+    files: ["app/**/*.xml", "app/**/*.ltss", "app/**/*.coffee"]
+    tasks: ['compile', 'tishadow:run_android']
+
+  all:
+    files: ["app/**/*.xml", "app/**/*.ltss", "app/**/*.coffee"]
+    tasks: ['compile', 'tishadow:run']</code></pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Gruntfile : Declaring tasks</h2>
+		<pre style="font-size: 17px;"><code class="language-bash">grunt.registerTask 'build', ['ltss', 'coffee']
+grunt.registerTask 'default', ['build', 'tishadow:run', 'watch:all']
+grunt.registerTask 'ios', ['build', 'tishadow:run_ios', 'watch:ios']
+grunt.registerTask 'android', ['build', 'tishadow:run_android', 'watch:android']</code></pre>
+		And launch a task:
+		<pre><code class="language-bash">$ grunt [task-name]</code></pre>
+
+		<p class="note">Need at least the default task</p>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>This is where the magic happen</h2>
+		<img src="pictures/grunt/grunt_cmd.png" class="place c" style="width:700px; top:400px;"/>
+	</div></section>
+
+
+	<section class="slide cover w"><div>
+		<img src="gif/yeah_minions.gif"/>
+	</div></section>
+
+	<section class="slide shout"><div>
+		<h2>Thank You !</h2>
+		<h4><a href="http://twitter.com/_clairecoloma">@_ClaireColoma</a> |<a href="http://jolicode.com"> <img src="pictures/JoliCode_logo.png" id="jolilogo"/></a></h4>
+	</div></section>
+
+	<p class="badge"><a href="https://github.com/shower/shower">Fork me on Github</a></p>
+
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+	<script src="styles/prism.js"></script>
+	<script src="styles/jquery-2.1.1.min.js"></script>
+	<script src="styles/progress.js"></script>
+</body>
+</html>
