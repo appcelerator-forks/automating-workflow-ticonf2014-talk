@@ -1,6 +1,6 @@
-# shwr.me demo
+# Automating Workflow
 
-These are the slides of the TiConf NY 2014 and are versionned in this repository as an (optional) model for future JoliCode conferences. The slides are based on [shwr.me](http://shwr.me), a html and CSS based presentation engine.
+These are the slides of the conference "Automating Workflow", held at the TiConf 2014 in Amsterdam
 
 ## Generating a PDF
 
